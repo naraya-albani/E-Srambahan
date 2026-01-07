@@ -28,7 +28,7 @@ const PitchDetector = forwardRef<
 
   const audioContextRef = useRef<AudioContext | null>(null);
   const analyserRef = useRef<AnalyserNode | null>(null);
-  const dataRef = useRef<Float32Array | null>(null);
+  const dataRef = useRef<Float32Array<ArrayBuffer> | null>(null);
   const animationRef = useRef<number | null>(null);
   const streamRef = useRef<MediaStream | null>(null);
 
