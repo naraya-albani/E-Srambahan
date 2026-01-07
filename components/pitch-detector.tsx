@@ -1,20 +1,25 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { forwardRef, useImperativeHandle, useRef, useState } from "react";
 import localFont from "next/font/local";
+import Image from "next/image";
 
 const javaneseFont = localFont({
   src: "../public/fonts/kepatihan.ttf",
   display: "swap",
 });
 
-export default function PitchDetector({
-  gender,
-  javaTone,
-}: {
-  gender: "male" | "female";
-  javaTone: "slendro" | "pelog";
-}) {
+export type PitchDetectorHandle = {
+  stopDetection: () => void;
+};
+
+const PitchDetector = forwardRef<
+  PitchDetectorHandle,
+  {
+    gender: "male" | "female";
+    javaTone: "slendro" | "pelog";
+  }
+>(function PitchDetector({ gender, javaTone }, ref) {
   const [frequency, setFrequency] = useState<number | null>(null);
   const [javaNote, setJavaNote] = useState<string>("");
   const [note, setNote] = useState<string>("");
@@ -53,22 +58,36 @@ export default function PitchDetector({
     }
   };
 
-  const stopDetection = () => {
+  const stopDetection = async () => {
+    // Stop animation loop
     if (animationRef.current) {
       cancelAnimationFrame(animationRef.current);
+      animationRef.current = null;
     }
-    if (audioContextRef.current) {
-      audioContextRef.current.close();
-    }
+
+    // Stop microphone
     if (streamRef.current) {
       streamRef.current.getTracks().forEach((track) => track.stop());
+      streamRef.current = null;
     }
+
+    // Close audio context
+    if (audioContextRef.current) {
+      await audioContextRef.current.close();
+      audioContextRef.current = null;
+    }
+
     setIsDetecting(false);
     setFrequency(null);
     setJavaNote("");
     setNote("");
     setLaras("");
   };
+
+  // 👉 expose ke parent
+  useImperativeHandle(ref, () => ({
+    stopDetection,
+  }));
 
   const detectPitch = () => {
     if (!analyserRef.current || !dataRef.current || !audioContextRef.current)
@@ -141,41 +160,58 @@ export default function PitchDetector({
   };
 
   return (
-    <div>
-      <h1 className="text-2xl font-semibold mb-4">
-        Pitch Detector ({gender === "male" ? "Kàkùng" : "Putri"})
-      </h1>
+    <div className="flex flex-col items-center gap-6 w-full">
+      <h1 className="text-4xl text-center">Titilarasipun Panjênêngan</h1>
+
+      {isDetecting && (
+        <div className="text-center">
+          <h1 className={`${javaneseFont.className} text-4xl font-semibold`}>
+            {javaNote}
+          </h1>
+          <h1 className="mt-4 text-3xl">
+            {javaTone === "slendro" ? "Slendro" : "Pelòg"}
+          </h1>
+        </div>
+      )}
 
       {isDetecting ? (
         <button
           onClick={stopDetection}
-          className="px-6 py-3 rounded bg-red-600 text-white hover:bg-red-700"
+          className="px-3 py-2 text-xl rounded bg-red-600 text-white hover:bg-red-700 cursor-pointer"
         >
-          Stop
+          Mandhêg
         </button>
       ) : (
         <button
           onClick={startDetection}
-          className="px-6 py-3 rounded bg-blue-600 text-white hover:bg-blue-700"
+          className="px-3 py-2 text-xl rounded bg-blue-600 text-white hover:bg-blue-700 cursor-pointer"
         >
-          Start
+          Wiwit
         </button>
       )}
 
-      {isDetecting && (
-        <div>
-          <p>Note</p>
-          <h2 className={`${javaneseFont.className} text-4xl font-semibold`}>
-            {javaNote}
-          </h2>
-          <h2 className="mt-4">
-            {javaTone === "slendro" ? "Slendro" : "Pelòg"}
-          </h2>
-        </div>
+      {gender === "male" ? (
+        <Image
+          src="/kakung.png"
+          alt="Swantên Kakung"
+          width={250}
+          height={304}
+          className="object-contain size-1/8 self-end"
+          priority
+        />
+      ) : (
+        <Image
+          src="/putri.png"
+          alt="Swantên Putri"
+          width={172}
+          height={304}
+          className="object-contain size-1/8 self-end"
+          priority
+        />
       )}
     </div>
   );
-}
+});
 
 /* ================================
    NOTE BARAT
@@ -306,3 +342,5 @@ function frequencyToGamelan(
     diff: minDiff,
   };
 }
+
+export default PitchDetector;

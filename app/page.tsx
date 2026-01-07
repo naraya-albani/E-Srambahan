@@ -1,33 +1,54 @@
 "use client";
 
-import PitchDetector from "@/components/pitch-detector";
-import { useState } from "react";
+import PitchDetector, {
+  PitchDetectorHandle,
+} from "@/components/pitch-detector";
+import Image from "next/image";
+import { useRef, useState } from "react";
 
 export default function Home() {
   const [gender, setGender] = useState<"male" | "female" | null>(null);
   const [javaTone, setJavaTone] = useState<"slendro" | "pelog" | null>(null);
 
+  const pitchRef = useRef<PitchDetectorHandle | null>(null);
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
+    <div className="flex min-h-screen items-center justify-center font-sans bg-[url('/bg.png')] bg-cover bg-center bg-no-repeat text-black">
+      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-28 px-16 sm:items-start">
         {/* ================= PILIH GENDER ================= */}
         {gender === null && (
-          <div className="flex flex-col items-center gap-6">
-            <h1 className="text-2xl font-semibold">Pilih Gender</h1>
+          <div>
+            <h1 className="text-4xl text-center">
+              Mangga Panjênêngan pilih cakrik swantênipun!
+            </h1>
 
-            <div className="flex gap-4">
+            <div className="flex justify-between">
               <button
                 onClick={() => setGender("male")}
-                className="px-6 py-3 rounded bg-blue-600 text-white hover:bg-blue-700"
+                className="flex items-center justify-center hover:scale-105 transition cursor-pointer"
               >
-                Kàkùng
+                <Image
+                  src="/kakung.png"
+                  alt="Swantên Kakung"
+                  width={250}
+                  height={304}
+                  className="object-contain size-3/4"
+                  priority
+                />
               </button>
 
               <button
                 onClick={() => setGender("female")}
-                className="px-6 py-3 rounded bg-pink-600 text-white hover:bg-pink-700"
+                className="flex items-center justify-center hover:scale-105 transition cursor-pointer"
               >
-                Putri
+                <Image
+                  src="/putri.png"
+                  alt="Swantên Putri"
+                  width={172}
+                  height={304}
+                  className="object-contain size-3/4"
+                  priority
+                />
               </button>
             </div>
           </div>
@@ -40,29 +61,50 @@ export default function Home() {
               onClick={() => {
                 setGender(null);
               }}
-              className="text-sm text-zinc-500 hover:text-zinc-800 dark:hover:text-white"
+              className="flex items-start hover:scale-105 transition cursor-pointer"
             >
-              ← Kembali pilih gender
+              <Image
+                src="/back.png"
+                alt="Swanten Putri"
+                width={385}
+                height={248}
+                className="object-contain size-1/4"
+                priority
+              />
             </button>
-            <div className="flex flex-col items-center gap-6">
-              <h1 className="text-xl">
-                Gender ({gender === "male" ? "Kàkùng" : "Putri"})
+            <div className="flex flex-col items-center">
+              <h1 className="text-2xl">
+                Swantên {gender === "male" ? "Kakùng" : "Putri"}
               </h1>
-              <h1 className="text-2xl font-semibold">Pilih Nada</h1>
+              <h1 className="text-4xl">Pilihan Laras</h1>
 
               <div className="flex gap-4">
                 <button
                   onClick={() => setJavaTone("slendro")}
-                  className="px-6 py-3 rounded bg-blue-600 text-white hover:bg-blue-700"
+                  className="flex items-center justify-center hover:scale-105 transition cursor-pointer"
                 >
-                  Slendro
+                  <Image
+                    src="/slendro.png"
+                    alt="Swanten Putri"
+                    width={615}
+                    height={503}
+                    className="object-contain size-3/4"
+                    priority
+                  />
                 </button>
 
                 <button
                   onClick={() => setJavaTone("pelog")}
-                  className="px-6 py-3 rounded bg-pink-600 text-white hover:bg-pink-700"
+                  className="flex items-center justify-center hover:scale-105 transition cursor-pointer"
                 >
-                  Pelòg
+                  <Image
+                    src="/pelog.png"
+                    alt="Swanten Putri"
+                    width={617}
+                    height={503}
+                    className="object-contain size-3/4"
+                    priority
+                  />
                 </button>
               </div>
             </div>
@@ -71,17 +113,24 @@ export default function Home() {
 
         {/* ================= PITCH DETECTOR ================= */}
         {gender !== null && javaTone !== null && (
-          <div className="space-y-6">
+          <div className="flex flex-col items-center justify-center w-full">
             <button
               onClick={() => {
+                pitchRef.current?.stopDetection(); // ⬅️ STOP MIC
                 setJavaTone(null);
               }}
-              className="text-sm text-zinc-500 hover:text-zinc-800 dark:hover:text-white"
+              className="self-start hover:scale-105 transition cursor-pointer"
             >
-              ← Kembali pilih nada
+              <Image
+                src="/back.png"
+                alt="Swanten Putri"
+                width={385}
+                height={248}
+                className="object-contain size-1/4"
+                priority
+              />
             </button>
-
-            <PitchDetector gender={gender} javaTone={javaTone} />
+            <PitchDetector ref={pitchRef} gender={gender} javaTone={javaTone} />
           </div>
         )}
       </main>
