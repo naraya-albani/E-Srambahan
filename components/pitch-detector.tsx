@@ -246,62 +246,66 @@ function frequencyToNote(freq: number): string {
 ================================ */
 const GAMELAN_FREQ_MAP = {
   male: {
+    // Kakung
     slendro: [
-      { freq: 208, number: "t", note: "G#3" }, // Banem/Gulu
-      { freq: 233, number: "y", note: "A#3" }, // Dada
-      { freq: 277, number: "1", note: "C#4" }, // Pelog/Ji
-      { freq: 311, number: "2", note: "D#4" }, // Lima
-      { freq: 370, number: "3", note: "F#4" }, // Nem
-      { freq: 415, number: "5", note: "G#4" }, // Banem (tinggi)
-      { freq: 466, number: "6", note: "A#4" }, // Dada (tinggi)
-      { freq: 554, number: "!", note: "C#5" }, // Ji (tinggi)
-      { freq: 622, number: "@", note: "D#5" }, // Lima (tinggi)
-      { freq: 740, number: "#", note: "F#5" }, // Nem (tinggi)
+      { freq: 104, number: "t", note: "G#2" },
+      { freq: 117, number: "y", note: "A#2" },
+      { freq: 139, number: "1", note: "C#3" },
+      { freq: 156, number: "2", note: "D#3" },
+      { freq: 185, number: "3", note: "F#3" },
+      { freq: 208, number: "5", note: "G#3" },
+      { freq: 233, number: "6", note: "A#3" },
+      { freq: 277, number: "!", note: "C#4" },
+      { freq: 311, number: "@", note: "D#4" },
+      { freq: 370, number: "#", note: "F#4" },
     ],
+
     pelog: [
-      { freq: 110, number: "t", note: "A2" }, // Banem
-      { freq: 117, number: "y", note: "A#2" }, // Dada
-      { freq: 131, number: "u", note: "C3" }, // Pitu
-      { freq: 147, number: "1", note: "D3" }, // Ji
-      { freq: 165, number: "2", note: "E3" }, // Ro
-      { freq: 175, number: "3", note: "F3" }, // Lu
-      { freq: 196, number: "4", note: "G3" }, // Pat
-      { freq: 220, number: "5", note: "A3" }, // Banem
-      { freq: 233, number: "6", note: "A#3" }, // Dada
-      { freq: 262, number: "7", note: "C4" }, // Pitu
-      { freq: 294, number: "!", note: "D4" }, // Ji (tinggi)
-      { freq: 330, number: "@", note: "E4" }, // Ro (tinggi)
-      { freq: 349, number: "#", note: "F4" }, // Lu (tinggi)
+      { freq: 110, number: "t", note: "A2" },
+      { freq: 117, number: "y", note: "A#2" },
+      { freq: 131, number: "u", note: "C3" },
+      { freq: 147, number: "1", note: "D3" },
+      { freq: 165, number: "2", note: "E3" },
+      { freq: 175, number: "3", note: "F3" },
+      { freq: 196, number: "4", note: "G3" },
+      { freq: 220, number: "5", note: "A3" },
+      { freq: 233, number: "6", note: "A#3" },
+      { freq: 262, number: "7", note: "C4" },
+      { freq: 294, number: "!", note: "D4" },
+      { freq: 330, number: "@", note: "E4" },
+      { freq: 349, number: "#", note: "F4" },
     ],
   },
 
   female: {
+    // Putri
     slendro: [
-      { freq: 415, number: "t", note: "G#4" }, // Banem
-      { freq: 466, number: "y", note: "A#4" }, // Dada
-      { freq: 554, number: "1", note: "C#5" }, // Ji
-      { freq: 622, number: "2", note: "D#5" }, // Lima
-      { freq: 740, number: "3", note: "F#5" }, // Nem
-      { freq: 831, number: "5", note: "G#5" }, // Banem (tinggi)
-      { freq: 932, number: "6", note: "A#5" }, // Dada (tinggi)
-      { freq: 1109, number: "!", note: "C#6" }, // Ji (tinggi)
-      { freq: 1245, number: "@", note: "D#6" }, // Lima (tinggi)
-      { freq: 1480, number: "#", note: "F#6" }, // Nem (tinggi)
+      { freq: 208, number: "t", note: "G#3" },
+      { freq: 233, number: "y", note: "A#3" },
+      { freq: 277, number: "1", note: "C#4" },
+      { freq: 311, number: "2", note: "D#4" },
+      { freq: 370, number: "3", note: "F#4" },
+      { freq: 415, number: "5", note: "G#4" },
+      { freq: 466, number: "6", note: "A#4" },
+      { freq: 554, number: "!", note: "C#5" },
+      { freq: 622, number: "@", note: "D#5" },
+      { freq: 740, number: "#", note: "F#5" },
     ],
+
     pelog: [
-      { freq: 220, number: "t", note: "A3" }, // Banem
-      { freq: 233, number: "y", note: "A#3" }, // Dada
-      { freq: 262, number: "u", note: "C4" }, // Pitu
-      { freq: 294, number: "1", note: "D4" }, // Ji
-      { freq: 330, number: "2", note: "E4" }, // Ro
-      { freq: 349, number: "3", note: "F4" }, // Lu
-      { freq: 392, number: "4", note: "G4" }, // Pat
-      { freq: 440, number: "5", note: "A4" }, // Banem
-      { freq: 466, number: "6", note: "A#4" }, // Dada
-      { freq: 523, number: "7", note: "C5" }, // Pitu
-      { freq: 587, number: "!", note: "D5" }, // Ji (tinggi)
-      { freq: 659, number: "@", note: "E5" }, // Ro (tinggi)
-      { freq: 698, number: "#", note: "F5" }, // Lu (tinggi)
+      { freq: 220, number: "t", note: "A3" },
+      { freq: 233, number: "y", note: "A#3" },
+      { freq: 262, number: "u", note: "C4" },
+      { freq: 294, number: "1", note: "D4" },
+      { freq: 330, number: "2", note: "E4" },
+      { freq: 349, number: "3", note: "F4" },
+      { freq: 392, number: "4", note: "G4" },
+      { freq: 440, number: "5", note: "A4" },
+      { freq: 466, number: "6", note: "A#4" },
+      { freq: 523, number: "7", note: "C5" },
+      { freq: 587, number: "!", note: "D5" },
+      { freq: 659, number: "@", note: "E5" },
+      { freq: 698, number: "#", note: "F5" },
     ],
   },
 } as const;
