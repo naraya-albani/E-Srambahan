@@ -13,240 +13,293 @@ export type PitchDetectorHandle = {
   stopDetection: () => void;
 };
 
+interface NoteInfo {
+  note: string;
+  octave: number;
+  cents: number;
+  frequency: number;
+}
+
+const noteStrings = [
+  "C",
+  "C#",
+  "D",
+  "D#",
+  "E",
+  "F",
+  "F#",
+  "G",
+  "G#",
+  "A",
+  "A#",
+  "B",
+];
+
 const PitchDetector = forwardRef<
   PitchDetectorHandle,
   {
     gender: "male" | "female";
-    javaTone: "slendro" | "pelog";
+    laras: "slendro" | "pelog";
   }
->(function PitchDetector({ gender, javaTone }, ref) {
-  const [frequency, setFrequency] = useState<number | null>(null);
+>(function PitchDetector({ gender, laras }, ref) {
+  const [currentNote, setCurrentNote] = useState<NoteInfo | null>(null);
   const [javaNote, setJavaNote] = useState<string>("");
-  const [note, setNote] = useState<string>("");
-  const [laras, setLaras] = useState<string>("");
   const [isDetecting, setIsDetecting] = useState(false);
 
   const audioContextRef = useRef<AudioContext | null>(null);
   const analyserRef = useRef<AnalyserNode | null>(null);
-  const dataRef = useRef<Float32Array<ArrayBuffer> | null>(null);
-  const animationRef = useRef<number | null>(null);
+  const animationIdRef = useRef<number | null>(null);
   const streamRef = useRef<MediaStream | null>(null);
+
+  const frequencyToNote = (frequency: number): NoteInfo => {
+    const noteNum = 12 * (Math.log(frequency / 440) / Math.log(2));
+    const roundedNote = Math.round(noteNum);
+    const cents = Math.floor((noteNum - roundedNote) * 100);
+    const noteIndex = (roundedNote + 69) % 12;
+    const octave = Math.floor((roundedNote + 69) / 12);
+
+    return {
+      note: noteStrings[noteIndex < 0 ? noteIndex + 12 : noteIndex],
+      octave: octave,
+      cents: cents,
+      frequency: frequency,
+    };
+  };
+
+  const autoCorrelate = (buffer: Float32Array, sampleRate: number): number => {
+    const SIZE = buffer.length;
+    const MAX_SAMPLES = Math.floor(SIZE / 2);
+    let best_offset = -1;
+    let best_correlation = 0;
+    let rms = 0;
+
+    for (let i = 0; i < SIZE; i++) {
+      const val = buffer[i];
+      rms += val * val;
+    }
+    rms = Math.sqrt(rms / SIZE);
+
+    if (rms < 0.01) return -1;
+
+    let lastCorrelation = 1;
+    for (let offset = 1; offset < MAX_SAMPLES; offset++) {
+      let correlation = 0;
+      for (let i = 0; i < MAX_SAMPLES; i++) {
+        correlation += Math.abs(buffer[i] - buffer[i + offset]);
+      }
+      correlation = 1 - correlation / MAX_SAMPLES;
+
+      if (correlation > 0.9 && correlation > lastCorrelation) {
+        const foundGoodCorrelation = correlation > best_correlation;
+        if (foundGoodCorrelation) {
+          best_correlation = correlation;
+          best_offset = offset;
+        }
+      }
+      lastCorrelation = correlation;
+    }
+
+    if (best_correlation > 0.01) {
+      return sampleRate / best_offset;
+    }
+    return -1;
+  };
+
+  const detectPitch = () => {
+    if (!analyserRef.current || !audioContextRef.current) return;
+
+    const bufferLength = analyserRef.current.fftSize;
+    const buffer = new Float32Array(bufferLength);
+    analyserRef.current.getFloatTimeDomainData(buffer);
+
+    const frequency = autoCorrelate(buffer, audioContextRef.current.sampleRate);
+
+    if (frequency > 0 && frequency < 2000) {
+      const noteInfo = frequencyToNote(frequency);
+      const gamelanNote = frequencyToGamelan(frequency, gender, laras);
+
+      setCurrentNote(noteInfo);
+      setJavaNote(gamelanNote.number);
+    }
+
+    animationIdRef.current = requestAnimationFrame(detectPitch);
+  };
 
   const startDetection = async () => {
     try {
+      audioContextRef.current = new (window.AudioContext ||
+        (window as any).webkitAudioContext)();
+      analyserRef.current = audioContextRef.current.createAnalyser();
+      analyserRef.current.fftSize = 2048;
+
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
       streamRef.current = stream;
+      const microphone =
+        audioContextRef.current.createMediaStreamSource(stream);
+      microphone.connect(analyserRef.current);
 
-      const audioContext = new AudioContext();
-      audioContextRef.current = audioContext;
-
-      const source = audioContext.createMediaStreamSource(stream);
-      const analyser = audioContext.createAnalyser();
-
-      analyser.fftSize = 4096;
-      analyserRef.current = analyser;
-      dataRef.current = new Float32Array(analyser.fftSize);
-
-      source.connect(analyser);
       setIsDetecting(true);
       detectPitch();
-    } catch (error) {
-      console.error("Error accessing microphone:", error);
+    } catch (err) {
+      console.error("Error accessing microphone:", err);
       alert(
         "Tidak dapat mengakses mikrofon. Pastikan izin mikrofon diaktifkan."
       );
     }
   };
 
-  const stopDetection = async () => {
-    // Stop animation loop
-    if (animationRef.current) {
-      cancelAnimationFrame(animationRef.current);
-      animationRef.current = null;
+  const stopDetection = () => {
+    setIsDetecting(false);
+
+    if (animationIdRef.current) {
+      cancelAnimationFrame(animationIdRef.current);
     }
 
-    // Stop microphone
     if (streamRef.current) {
       streamRef.current.getTracks().forEach((track) => track.stop());
-      streamRef.current = null;
     }
 
-    // Close audio context
     if (audioContextRef.current) {
-      await audioContextRef.current.close();
-      audioContextRef.current = null;
+      audioContextRef.current.close();
     }
 
-    setIsDetecting(false);
-    setFrequency(null);
+    setCurrentNote(null);
     setJavaNote("");
-    setNote("");
-    setLaras("");
   };
 
-  // 👉 expose ke parent
   useImperativeHandle(ref, () => ({
     stopDetection,
   }));
 
-  const detectPitch = () => {
-    if (!analyserRef.current || !dataRef.current || !audioContextRef.current)
-      return;
+  // Calculate horizontal shift based on detected gamelan note
+  const getGamelanNoteShift = () => {
+    if (!javaNote) return 0;
 
-    analyserRef.current.getFloatTimeDomainData(dataRef.current);
+    const gamelanNotes = GAMELAN_FREQ_MAP[gender][laras];
+    const currentIndex = gamelanNotes.findIndex((n) => n.number === javaNote);
 
-    const pitch = autoCorrelate(
-      dataRef.current as Float32Array,
-      audioContextRef.current.sampleRate
-    );
+    if (currentIndex === -1) return 0;
 
-    if (pitch && pitch > 50 && pitch < 2000) {
-      const westernNote = frequencyToNote(pitch);
-      const gamelanNote = frequencyToGamelan(pitch, gender, javaTone);
+    // Center position depends on total notes
+    const centerPosition = Math.floor(gamelanNotes.length / 2);
+    const shift = (centerPosition - currentIndex) * 100;
 
-      setFrequency(pitch);
-      setNote(westernNote);
-      setJavaNote(gamelanNote.number);
-    }
+    // Add fine-tuning based on cents
+    const centsShift = currentNote ? (currentNote.cents / 100) * -100 : 0;
 
-    animationRef.current = requestAnimationFrame(detectPitch);
-  };
-
-  // Auto-correlation pitch detection algorithm
-  const autoCorrelate = (
-    buffer: Float32Array,
-    sampleRate: number
-  ): number | null => {
-    let size = buffer.length;
-    let maxSamples = Math.floor(size / 2);
-    let bestOffset = -1;
-    let bestCorrelation = 0;
-    let rms = 0;
-
-    // Calculate RMS (Root Mean Square) for volume detection
-    for (let i = 0; i < size; i++) {
-      rms += buffer[i] * buffer[i];
-    }
-    rms = Math.sqrt(rms / size);
-
-    // Not enough signal
-    if (rms < 0.01) return null;
-
-    // Find the best correlation
-    let lastCorrelation = 1;
-    for (let offset = 1; offset < maxSamples; offset++) {
-      let correlation = 0;
-      for (let i = 0; i < maxSamples; i++) {
-        correlation += Math.abs(buffer[i] - buffer[i + offset]);
-      }
-      correlation = 1 - correlation / maxSamples;
-
-      if (correlation > 0.9 && correlation > lastCorrelation) {
-        let foundGoodCorrelation = false;
-        if (correlation > bestCorrelation) {
-          bestCorrelation = correlation;
-          bestOffset = offset;
-          foundGoodCorrelation = true;
-        }
-      }
-      lastCorrelation = correlation;
-    }
-
-    if (bestCorrelation > 0.01 && bestOffset !== -1) {
-      const fundamentalFreq = sampleRate / bestOffset;
-      return fundamentalFreq;
-    }
-    return null;
+    return shift + centsShift;
   };
 
   return (
     <div className="flex flex-col items-center gap-6 w-full">
-      <h1 className="text-4xl text-center">Titilarasipun Panjênêngan</h1>
+      <h1 className="text-4xl text-center font-bold text-gray-800">
+        Titilarasipun Panjênêngan
+      </h1>
 
-      {isDetecting && (
-        <div className="text-center">
-          <h1 className={`${javaneseFont.className} text-4xl font-semibold`}>
-            {javaNote}
-          </h1>
-          <h1 className="mt-4 text-3xl">
-            {javaTone === "slendro" ? "Slendro" : "Pelòg"}
-          </h1>
+      {/* Horizontal Note Display */}
+      <div className="relative w-full max-w-3xl h-48 overflow-hidden rounded-2xl shadow-inner">
+        {/* Center Indicator */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1 h-full bg-red-500 z-10">
+          <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-0 h-0 border-l-15 border-r-15 border-t-20 border-l-transparent border-r-transparent border-t-red-500" />
         </div>
-      )}
 
-      {isDetecting ? (
-        <button
-          onClick={stopDetection}
-          className="px-3 py-2 text-xl rounded bg-red-600 text-white hover:bg-red-700 cursor-pointer"
+        {/* Sliding Gamelan Notes Container */}
+        <div
+          className="absolute top-1/2 -translate-y-1/2 flex items-center transition-all duration-200 ease-out"
+          style={{
+            left: "50%",
+            transform: `translate(calc(-50% + ${getGamelanNoteShift()}px), -50%)`,
+          }}
         >
-          Mandhêg
-        </button>
-      ) : (
-        <button
-          onClick={startDetection}
-          className="px-3 py-2 text-xl rounded bg-blue-600 text-white hover:bg-blue-700 cursor-pointer"
-        >
-          Wiwit
-        </button>
-      )}
+          {(() => {
+            const gamelanNotes = GAMELAN_FREQ_MAP[gender][laras];
 
-      {gender === "male" ? (
-        <Image
-          src="/kakung.png"
-          alt="Swantên Kakung"
-          width={250}
-          height={304}
-          className="object-contain size-1/8 self-end"
-          priority
-        />
-      ) : (
-        <Image
-          src="/putri.png"
-          alt="Swantên Putri"
-          width={172}
-          height={304}
-          className="object-contain size-1/8 self-end"
-          priority
-        />
-      )}
+            return gamelanNotes.map((noteData, index) => {
+              return (
+                <div
+                  key={`${noteData.number}-${index}`}
+                  className={`shrink-0 text-center font-bold transition-all duration-300 ${
+                    javaneseFont.className
+                  } ${
+                    javaNote === noteData.number
+                      ? "text-5xl text-red-500 scale-125"
+                      : "text-3xl"
+                  }`}
+                  style={{ width: "100px" }}
+                >
+                  {noteData.number}
+                </div>
+              );
+            });
+          })()}
+        </div>
+      </div>
+
+      <div className="relative w-full flex justify-center items-center">
+        {/* ===== CENTER CONTENT ===== */}
+        <div className="flex flex-col items-center gap-8">
+          {/* Info Display */}
+          <div className="text-center">
+            <div
+              className={`${javaneseFont.className} text-5xl font-bold mb-4`}
+            >
+              {javaNote}
+            </div>
+            <div className="text-3xl text-gray-600">
+              {laras === "slendro" ? "Slendro" : "Pelòg"}
+            </div>
+          </div>
+
+          {/* Controls */}
+          {isDetecting ? (
+            <button
+              onClick={stopDetection}
+              className="px-6 py-3 text-xl rounded-xl bg-red-600 text-white hover:bg-red-700 shadow-lg transition-all duration-300 hover:-translate-y-1"
+            >
+              Mandhêg
+            </button>
+          ) : (
+            <button
+              onClick={startDetection}
+              className="px-6 py-3 text-xl rounded-xl bg-blue-600 text-white hover:bg-blue-700 shadow-lg transition-all duration-300 hover:-translate-y-1"
+            >
+              Wiwit
+            </button>
+          )}
+        </div>
+
+        {/* ===== GENDER IMAGE (RIGHT) ===== */}
+        <div className="absolute right-0 bottom-0">
+          {gender === "male" ? (
+            <Image
+              src="/kakung.png"
+              alt="Swantên Kakung"
+              width={250}
+              height={304}
+              className="object-contain size-1/2"
+              priority
+            />
+          ) : (
+            <Image
+              src="/putri.png"
+              alt="Swantên Putri"
+              width={172}
+              height={304}
+              className="object-contain size-1/2"
+              priority
+            />
+          )}
+        </div>
+      </div>
     </div>
   );
 });
 
 /* ================================
-   NOTE BARAT
-================================ */
-function frequencyToNote(freq: number): string {
-  const notes = [
-    "C",
-    "C#",
-    "D",
-    "D#",
-    "E",
-    "F",
-    "F#",
-    "G",
-    "G#",
-    "A",
-    "A#",
-    "B",
-  ];
-
-  const A4 = 440;
-  const noteNumber = Math.round(12 * Math.log2(freq / A4) + 69);
-  const noteName = notes[noteNumber % 12];
-  const octave = Math.floor(noteNumber / 12) - 1;
-
-  return `${noteName}${octave}`;
-}
-
-/* ===============================
-   MAPPING FREKUENSI GAMELAN
-   Berdasarkan gambar yang diberikan
+   GAMELAN FREQUENCY MAPPING
 ================================ */
 const GAMELAN_FREQ_MAP = {
   male: {
-    // Kakung
     slendro: [
       { freq: 104, number: "t", note: "G#2" },
       { freq: 117, number: "y", note: "A#2" },
@@ -259,7 +312,6 @@ const GAMELAN_FREQ_MAP = {
       { freq: 311, number: "@", note: "D#4" },
       { freq: 370, number: "#", note: "F#4" },
     ],
-
     pelog: [
       { freq: 110, number: "t", note: "A2" },
       { freq: 117, number: "y", note: "A#2" },
@@ -276,9 +328,7 @@ const GAMELAN_FREQ_MAP = {
       { freq: 349, number: "#", note: "F4" },
     ],
   },
-
   female: {
-    // Putri
     slendro: [
       { freq: 208, number: "t", note: "G#3" },
       { freq: 233, number: "y", note: "A#3" },
@@ -291,7 +341,6 @@ const GAMELAN_FREQ_MAP = {
       { freq: 622, number: "@", note: "D#5" },
       { freq: 740, number: "#", note: "F#5" },
     ],
-
     pelog: [
       { freq: 220, number: "t", note: "A3" },
       { freq: 233, number: "y", note: "A#3" },
@@ -316,19 +365,13 @@ type GamelanNote = {
   note: string;
 };
 
-/* ===============================
-   CONVERTER dengan Pencarian Terdekat
-   Hanya mencari di laras yang dipilih
-================================ */
 function frequencyToGamelan(
   freq: number,
   gender: "male" | "female",
-  javaTone: "slendro" | "pelog"
+  laras: "slendro" | "pelog"
 ) {
-  // Ambil notes sesuai laras yang dipilih
-  const notes = GAMELAN_FREQ_MAP[gender][javaTone] as readonly GamelanNote[];
+  const notes = GAMELAN_FREQ_MAP[gender][laras] as readonly GamelanNote[];
 
-  // Cari nada terdekat di laras yang dipilih
   let closest: GamelanNote = notes[0];
   let minDiff = Math.abs(freq - closest.freq);
 
