@@ -8,13 +8,13 @@ import { useRef, useState } from "react";
 
 export default function Home() {
   const [gender, setGender] = useState<"male" | "female" | null>(null);
-  const [javaTone, setJavaTone] = useState<"slendro" | "pelog" | null>(null);
+  const [laras, setLaras] = useState<"slendro" | "pelog" | null>(null);
 
   const pitchRef = useRef<PitchDetectorHandle | null>(null);
 
   return (
     <div className="flex min-h-screen items-center justify-center font-sans bg-[url('/bg.png')] bg-cover bg-center bg-no-repeat text-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-28 px-16 sm:items-start">
+      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-center px-16 sm:items-start">
         {/* ================= PILIH GENDER ================= */}
         {gender === null && (
           <div>
@@ -55,7 +55,7 @@ export default function Home() {
         )}
 
         {/* ================= PILIH LARAS ================= */}
-        {gender !== null && javaTone === null && (
+        {gender !== null && laras === null && (
           <div>
             <button
               onClick={() => {
@@ -80,7 +80,7 @@ export default function Home() {
 
               <div className="flex gap-4">
                 <button
-                  onClick={() => setJavaTone("slendro")}
+                  onClick={() => setLaras("slendro")}
                   className="flex items-center justify-center hover:scale-105 transition cursor-pointer"
                 >
                   <Image
@@ -94,7 +94,7 @@ export default function Home() {
                 </button>
 
                 <button
-                  onClick={() => setJavaTone("pelog")}
+                  onClick={() => setLaras("pelog")}
                   className="flex items-center justify-center hover:scale-105 transition cursor-pointer"
                 >
                   <Image
@@ -112,12 +112,14 @@ export default function Home() {
         )}
 
         {/* ================= PITCH DETECTOR ================= */}
-        {gender !== null && javaTone !== null && (
-          <div className="flex flex-col items-center justify-center w-full">
+        {gender !== null && laras !== null && (
+          <div className="flex flex-col items-center justify-center w-full py-16">
             <button
               onClick={() => {
-                pitchRef.current?.stopDetection(); // ⬅️ STOP MIC
-                setJavaTone(null);
+                if (pitchRef.current) {
+                  pitchRef.current.stopDetection(); // ⬅️ STOP MIC
+                }
+                setLaras(null);
               }}
               className="self-start hover:scale-105 transition cursor-pointer"
             >
@@ -130,7 +132,7 @@ export default function Home() {
                 priority
               />
             </button>
-            <PitchDetector ref={pitchRef} gender={gender} javaTone={javaTone} />
+            <PitchDetector ref={pitchRef} gender={gender} laras={laras} />
           </div>
         )}
       </main>
