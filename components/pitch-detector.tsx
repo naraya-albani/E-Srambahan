@@ -192,12 +192,12 @@ const PitchDetector = forwardRef<
 
   return (
     <div className="flex flex-col items-center gap-6 w-full">
-      <h1 className="text-4xl text-center font-bold text-gray-800">
+      <h1 className="text-4xl text-center font-bold text-gray-800 px-4">
         Titilarasipun Panjênêngan
       </h1>
 
       {/* Horizontal Note Display */}
-      <div className="relative w-full max-w-3xl h-48 overflow-hidden rounded-2xl shadow-inner">
+      <div className="relative w-full max-w-3xl h-24 overflow-hidden rounded-2xl shadow-inner">
         {/* Center Indicator */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-1 h-full bg-red-500 z-10">
           <div className="absolute -top-2 left-1/2 -translate-x-1/2 w-0 h-0 border-l-15 border-r-15 border-t-20 border-l-transparent border-r-transparent border-t-red-500" />
@@ -235,7 +235,7 @@ const PitchDetector = forwardRef<
         </div>
       </div>
 
-      <div className="relative w-full flex justify-center items-center">
+      <div className="relative w-full flex justify-center items-center px-4">
         {/* ===== CENTER CONTENT ===== */}
         <div className="flex flex-col items-center gap-8">
           {/* Info Display */}
@@ -269,14 +269,14 @@ const PitchDetector = forwardRef<
         </div>
 
         {/* ===== GENDER IMAGE (RIGHT) ===== */}
-        <div className="absolute right-0 bottom-0">
+        <div className="absolute right-0 bottom-0 w-24 h-auto md:w-40 lg:w-56">
           {gender === "male" ? (
             <Image
               src="/kakung.png"
               alt="Swantên Kakung"
               width={250}
               height={304}
-              className="object-contain size-1/2"
+              className="object-contain size-2/3 md:size-1/3"
               priority
             />
           ) : (
@@ -285,7 +285,7 @@ const PitchDetector = forwardRef<
               alt="Swantên Putri"
               width={172}
               height={304}
-              className="object-contain size-1/2"
+              className="object-contain size-2/3 md:size-1/3"
               priority
             />
           )}
