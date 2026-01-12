@@ -22,7 +22,7 @@ export default function Home() {
               Mangga Panjênêngan pilih cakrik swantênipun!
             </h1>
 
-            <div className="flex justify-between">
+            <div className="flex gap-16 justify-center">
               <button
                 onClick={() => setGender("male")}
                 className="flex items-center justify-center hover:scale-105 transition cursor-pointer"
@@ -68,7 +68,7 @@ export default function Home() {
                 alt="Swanten Putri"
                 width={385}
                 height={248}
-                className="object-contain size-1/4"
+                className="object-contain size-1/3 md:size-1/4"
                 priority
               />
             </button>
@@ -128,7 +128,7 @@ export default function Home() {
                 alt="Swanten Putri"
                 width={385}
                 height={248}
-                className="object-contain size-1/4"
+                className="object-contain size-1/3 md:size-1/4"
                 priority
               />
             </button>

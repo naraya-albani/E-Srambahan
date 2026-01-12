@@ -254,14 +254,14 @@ const PitchDetector = forwardRef<
           {isDetecting ? (
             <button
               onClick={stopDetection}
-              className="px-6 py-3 text-xl rounded-xl bg-red-600 text-white hover:bg-red-700 shadow-lg transition-all duration-300 hover:-translate-y-1"
+              className="px-6 py-3 text-xl rounded-xl bg-red-600 text-white hover:bg-red-700 shadow-lg transition-all duration-300 hover:-translate-y-1 cursor-pointer"
             >
               Mandhêg
             </button>
           ) : (
             <button
               onClick={startDetection}
-              className="px-6 py-3 text-xl rounded-xl bg-blue-600 text-white hover:bg-blue-700 shadow-lg transition-all duration-300 hover:-translate-y-1"
+              className="px-6 py-3 text-xl rounded-xl bg-blue-600 text-white hover:bg-blue-700 shadow-lg transition-all duration-300 hover:-translate-y-1 cursor-pointer"
             >
               Wiwit
             </button>
