@@ -4,6 +4,7 @@ import PitchDetector, {
   PitchDetectorHandle,
 } from "@/components/pitch-detector";
 import Image from "next/image";
+import Link from "next/link";
 import { useRef, useState } from "react";
 
 export default function Srambahan() {
@@ -18,6 +19,18 @@ export default function Srambahan() {
         {/* ================= PILIH GENDER ================= */}
         {gender === null && (
           <div>
+            <Link
+              href={"/"}
+              className="hover:scale-105 transition cursor-pointer lg:ml-24"
+            >
+              <Image
+                src="/back.png"
+                alt="Back"
+                width={385}
+                height={248}
+                className="object-contain w-20 md:w-24"
+              />
+            </Link>
             <h1 className="text-4xl text-center">
               Mangga Panjênêngan pilih cakrik swantênipun!
             </h1>

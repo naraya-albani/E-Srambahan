@@ -6,9 +6,9 @@ import { useState } from "react";
 
 const menus = [
   { image: "/srambahan.png", link: "/srambahan" },
-  { image: "/tembang.png", link: "/srambahan" },
-  { image: "/paugeran-tembang.png", link: "/srambahan" },
-  { image: "/profile.png", link: "/srambahan" },
+  { image: "/tembang.png", link: "/tembang" },
+  { image: "/paugeran-tembang.png", link: "/paugeran-tembang" },
+  { image: "/profile.png", link: "/profil-pangembang" },
   { image: "/about.png", link: "/srambahan" },
 ];
 
@@ -46,6 +46,13 @@ export default function Home() {
       {/* MENU SCREEN */}
       {start && (
         <div className="flex flex-col gap-4 justify-center items-center min-h-screen">
+          <Image
+            src="/menu-title.png"
+            alt="Menu"
+            width={250}
+            height={483}
+            className="object-contain"
+          />
           {menus.map((menu, index) => (
             <Link
               key={index}
@@ -55,7 +62,7 @@ export default function Home() {
               <Image
                 src={menu.image}
                 alt={`Menu ${index}`}
-                width={250}
+                width={200}
                 height={483}
                 className="object-contain"
               />
