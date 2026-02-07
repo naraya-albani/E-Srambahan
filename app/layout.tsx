@@ -19,7 +19,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="id">
-      <body className={`${scriptMTBold.variable} antialiased`}>{children}</body>
+      <body className={`${scriptMTBold.variable} antialiased`}>
+        <div className="bg-[url('/bg.webp')] bg-cover bg-center bg-no-repeat">
+          {children}
+        </div>
+      </body>
     </html>
   );
 }

@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function ProfilPangembang() {
   return (
-    <div className="flex flex-col gap-8 justify-center items-center min-h-screen p-8 font-sans bg-[url('/bg.png')] bg-cover bg-center bg-no-repeat text-black">
+    <div className="flex flex-col gap-8 justify-center items-center min-h-screen p-8 font-sans text-black">
       <div className="grid grid-cols-3 items-center w-full">
         {/* Kiri */}
         <Link

@@ -14,7 +14,7 @@ export default function Srambahan() {
   const pitchRef = useRef<PitchDetectorHandle | null>(null);
 
   return (
-    <div className="flex min-h-screen items-center justify-center font-sans bg-[url('/bg.png')] bg-cover bg-center bg-no-repeat text-black">
+    <div className="flex min-h-screen items-center justify-center font-sans text-black">
       <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-center sm:items-start">
         {/* ================= PILIH GENDER ================= */}
         {gender === null && (
