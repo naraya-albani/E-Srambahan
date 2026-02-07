@@ -5,18 +5,18 @@ import Link from "next/link";
 import { useState } from "react";
 
 const menus = [
-  { image: "/srambahan.png", link: "/srambahan" },
-  { image: "/tembang.png", link: "/tembang" },
-  { image: "/paugeran-tembang.png", link: "/paugeran-tembang" },
-  { image: "/profile.png", link: "/profil-pangembang" },
-  { image: "/about.png", link: "/srambahan" },
+  { title: "Srambahan", link: "/srambahan" },
+  { title: "Pilihan Tembang", link: "/pilihan-tembang" },
+  { title: "Paugeran Tembang", link: "/paugeran-tembang" },
+  { title: "Profil Pangembang", link: "/profil-pangembang" },
+  { title: "Katrangan Aplikasi", link: "/katrangan-aplikasi" },
 ];
 
 export default function Home() {
   const [start, setStart] = useState(false);
 
   return (
-    <div className="min-h-screen px-8 font-sans bg-[url('/bg.png')] bg-cover bg-center bg-no-repeat text-black">
+    <div className="min-h-screen px-8 font-sans text-black">
       {/* START SCREEN */}
       {!start && (
         <div className="flex flex-col justify-center items-center min-h-screen">
@@ -47,7 +47,7 @@ export default function Home() {
       {start && (
         <div className="flex flex-col gap-4 justify-center items-center min-h-screen">
           <Image
-            src="/menu-title.png"
+            src="/menu.png"
             alt="Menu"
             width={250}
             height={483}
@@ -57,15 +57,17 @@ export default function Home() {
             <Link
               key={index}
               href={menu.link}
-              className="flex items-center justify-center hover:scale-105 transition cursor-pointer"
+              className="flex items-center justify-center hover:scale-105 transition cursor-pointer w-102 h-16 relative isolate"
             >
               <Image
-                src={menu.image}
-                alt={`Menu ${index}`}
-                width={200}
-                height={483}
-                className="object-contain"
+                src="/bg-btn.png"
+                alt="Background"
+                width={816}
+                height={183}
+                className="absolute inset-0 w-full h-full object-contain"
+                style={{ zIndex: -1 }}
               />
+              <h1 className="text-3xl font-bold relative z-10">{menu.title}</h1>
             </Link>
           ))}
         </div>
