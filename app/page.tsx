@@ -6,10 +6,11 @@ import { useState } from "react";
 
 const menus = [
   { title: "Srambahan", link: "/srambahan" },
-  { title: "Pilihan Tembang", link: "/pilihan-tembang" },
-  { title: "Paugeran Tembang", link: "/paugeran-tembang" },
-  { title: "Profil Pangembang", link: "/profil-pangembang" },
+  { title: "Pilihan Têmbang", link: "/pilihan-tembang" },
+  { title: "Paugeran Têmbang", link: "/paugeran-tembang" },
+  { title: "Profil Pangêmbang", link: "/profil-pangembang" },
   { title: "Katrangan Aplikasi", link: "/katrangan-aplikasi" },
+  { title: "Dhétéktor Plêng", link: "/dhetektor-pleng" },
 ];
 
 export default function Home() {
@@ -26,6 +27,7 @@ export default function Home() {
             width={400}
             height={483}
             className="object-contain"
+            loading="eager"
           />
           <h1 className="text-5xl text-center font-bold">E-Srambahan</h1>
           <button
