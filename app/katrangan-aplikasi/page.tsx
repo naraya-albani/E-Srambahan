@@ -1,32 +1,7 @@
-import Image from "next/image";
-import Link from "next/link";
-
 export default function KatranganAplikasi() {
   return (
     <div className="flex flex-col gap-8 justify-center items-center min-h-screen p-8 font-sans text-black">
-      <div className="grid grid-cols-3 items-center w-full">
-        {/* Kiri */}
-        <Link
-          href={"/"}
-          className="hover:scale-105 transition cursor-pointer lg:ml-24"
-        >
-          <Image
-            src="/back.png"
-            alt="Back"
-            width={385}
-            height={248}
-            className="object-contain w-20 md:w-24"
-          />
-        </Link>
-
-        {/* Tengah (lebih lebar) */}
-        <h1 className="col-span-1 text-center text-4xl font-bold">
-          Katrangan Aplikasi
-        </h1>
-
-        {/* Kosong kanan */}
-        <div />
-      </div>
+      <h1 className="text-center text-4xl font-bold">Katrangan Aplikasi</h1>
       <p className="text-justify text-lg lg:mx-24">
         Sinau nywantênakên titilaras (notasi) wontên sêni swantên Jawi
         limrahipun kanthi cara nirokakên ungêlipun gamêlan utawi swantênipun
