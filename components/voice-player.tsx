@@ -45,14 +45,16 @@ export default function VoicePlayer({
   laras,
   phetet,
   isChangeableGender = false,
+  gender: genderProp = "kakung",
 }: {
   laras: Laras;
   phetet: Phetet;
   isChangeableGender?: boolean;
+  gender?: Gender;
 }) {
   const [playingNote, setPlayingNote] = useState<string | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
-  const [gender, setGender] = useState<Gender>("kakung");
+  const [gender, setGender] = useState<Gender>(genderProp);
 
   const playAudio = (notasi: string) => {
     if (!gender || !laras) return;
