@@ -1,17 +1,14 @@
 "use client";
 
-import { forwardRef, useImperativeHandle, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import localFont from "next/font/local";
 import Image from "next/image";
+import { Gender, Laras } from "@/types/type";
 
 const javaneseFont = localFont({
   src: "../public/fonts/kepatihan.ttf",
   display: "swap",
 });
-
-export type PitchDetectorHandle = {
-  stopDetection: () => void;
-};
 
 interface NoteInfo {
   note: string;
@@ -35,13 +32,13 @@ const noteStrings = [
   "B",
 ];
 
-const PitchDetector = forwardRef<
-  PitchDetectorHandle,
-  {
-    gender: "male" | "female";
-    laras: "slendro" | "pelog";
-  }
->(function PitchDetector({ gender, laras }, ref) {
+export default function PitchDetector({
+  gender,
+  laras,
+}: {
+  gender: Gender;
+  laras: Laras;
+}) {
   const [currentNote, setCurrentNote] = useState<NoteInfo | null>(null);
   const [javaNote, setJavaNote] = useState<string>("");
   const [isDetecting, setIsDetecting] = useState(false);
@@ -127,8 +124,9 @@ const PitchDetector = forwardRef<
 
   const startDetection = async () => {
     try {
-      audioContextRef.current = new (window.AudioContext ||
-        (window as any).webkitAudioContext)();
+      audioContextRef.current = new (
+        window.AudioContext || (window as any).webkitAudioContext
+      )();
       analyserRef.current = audioContextRef.current.createAnalyser();
       analyserRef.current.fftSize = 2048;
 
@@ -143,7 +141,7 @@ const PitchDetector = forwardRef<
     } catch (err) {
       console.error("Error accessing microphone:", err);
       alert(
-        "Tidak dapat mengakses mikrofon. Pastikan izin mikrofon diaktifkan."
+        "Tidak dapat mengakses mikrofon. Pastikan izin mikrofon diaktifkan.",
       );
     }
   };
@@ -166,10 +164,6 @@ const PitchDetector = forwardRef<
     setCurrentNote(null);
     setJavaNote("");
   };
-
-  useImperativeHandle(ref, () => ({
-    stopDetection,
-  }));
 
   // Calculate horizontal shift based on detected gamelan note
   const getGamelanNoteShift = () => {
@@ -270,7 +264,7 @@ const PitchDetector = forwardRef<
 
         {/* ===== GENDER IMAGE (RIGHT) ===== */}
         <div className="absolute right-0 bottom-0 w-24 h-auto md:w-40 lg:w-56">
-          {gender === "male" ? (
+          {gender === "kakung" ? (
             <Image
               src="/kakung.png"
               alt="Swantên Kakung"
@@ -293,13 +287,13 @@ const PitchDetector = forwardRef<
       </div>
     </div>
   );
-});
+}
 
 /* ================================
    GAMELAN FREQUENCY MAPPING
 ================================ */
 const GAMELAN_FREQ_MAP = {
-  male: {
+  kakung: {
     slendro: [
       { freq: 104, number: "t", note: "G#2" },
       { freq: 117, number: "y", note: "A#2" },
@@ -328,7 +322,7 @@ const GAMELAN_FREQ_MAP = {
       { freq: 349, number: "#", note: "F4" },
     ],
   },
-  female: {
+  putri: {
     slendro: [
       { freq: 208, number: "t", note: "G#3" },
       { freq: 233, number: "y", note: "A#3" },
@@ -365,11 +359,7 @@ type GamelanNote = {
   note: string;
 };
 
-function frequencyToGamelan(
-  freq: number,
-  gender: "male" | "female",
-  laras: "slendro" | "pelog"
-) {
+function frequencyToGamelan(freq: number, gender: Gender, laras: Laras) {
   const notes = GAMELAN_FREQ_MAP[gender][laras] as readonly GamelanNote[];
 
   let closest: GamelanNote = notes[0];
@@ -389,5 +379,3 @@ function frequencyToGamelan(
     diff: minDiff,
   };
 }
-
-export default PitchDetector;
