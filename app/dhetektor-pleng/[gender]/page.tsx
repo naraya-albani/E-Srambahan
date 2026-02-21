@@ -12,10 +12,10 @@ export default function GenderPage({
 
   return (
     <div className="flex flex-col gap-8 justify-center items-center min-h-screen p-8 font-sans text-black">
-      <h1 className="text-2xl">
-        Swantên {gender === "kakung" ? "Kakùng" : "Putri"}
+      <h1 className="text-4xl text-center font-bold">
+        Swantên {gender === "kakung" ? "Kakùng" : "Putri"} <br />
+        Pilihan Laras
       </h1>
-      <h1 className="text-4xl">Pilihan Laras</h1>
 
       <div className="flex gap-4">
         <Link
@@ -24,11 +24,10 @@ export default function GenderPage({
         >
           <Image
             src="/slendro.png"
-            alt="Swanten Putri"
+            alt="Slendro"
             width={615}
             height={503}
-            className="object-contain size-3/4"
-            priority
+            className="object-contain w-2/3 sm:w-1/3"
           />
         </Link>
 
@@ -38,11 +37,10 @@ export default function GenderPage({
         >
           <Image
             src="/pelog.png"
-            alt="Swanten Putri"
+            alt="Pelog"
             width={617}
             height={503}
-            className="object-contain size-3/4"
-            priority
+            className="object-contain w-2/3 sm:w-1/3"
           />
         </Link>
       </div>

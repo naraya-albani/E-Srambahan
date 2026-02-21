@@ -92,7 +92,7 @@ export default function VoicePlayer({
 
   return (
     <div>
-      <div className="flex justify-center items-center gap-4 mt-8 max-lg:flex-col">
+      <div className="grid grid-cols-3 lg:flex justify-center items-center gap-4 mt-8">
         {notes.map((note, idx) => {
           const [notasi, solmisasi] = Object.entries(note)[0];
           const isPlaying = playingNote === notasi;
@@ -106,7 +106,7 @@ export default function VoicePlayer({
                   playAudio(notasi);
                 }
               }}
-              className={`flex flex-col items-center gap-4 text-4xl font-bold py-2 rounded-lg border-2 transition cursor-pointer max-lg:flex-row
+              className={`flex flex-col items-center gap-2 text-4xl font-bold py-2 rounded-lg border-2 transition cursor-pointer
                 ${
                   isPlaying
                     ? "bg-[#8b6340] border-[#5a3e20] text-white scale-105"
@@ -118,7 +118,7 @@ export default function VoicePlayer({
               >
                 {notasi}
               </span>
-              <span className="w-24 text-center">{solmisasi}</span>
+              <span className="w-full text-center text-2xl">{solmisasi}</span>
               <span className="text-2xl">{isPlaying ? "🔊" : "🔈"}</span>
             </button>
           );
@@ -138,8 +138,7 @@ export default function VoicePlayer({
                   alt="Swantên Kakung"
                   width={250}
                   height={304}
-                  className="object-contain size-2/3 md:size-1/3"
-                  priority
+                  className="object-contain w-28"
                 />
               </button>
             ) : (
@@ -152,8 +151,7 @@ export default function VoicePlayer({
                   alt="Swantên Putri"
                   width={172}
                   height={304}
-                  className="object-contain size-2/3 md:size-1/3"
-                  priority
+                  className="object-contain w-28"
                 />
               </button>
             )}
@@ -166,8 +164,7 @@ export default function VoicePlayer({
                 alt="Swantên Kakung"
                 width={250}
                 height={304}
-                className="object-contain size-2/3 md:size-1/3"
-                priority
+                className="object-contain w-28"
               />
             ) : (
               <Image
@@ -175,8 +172,7 @@ export default function VoicePlayer({
                 alt="Swantên Putri"
                 width={172}
                 height={304}
-                className="object-contain size-2/3 md:size-1/3"
-                priority
+                className="object-contain w-28"
               />
             )}
           </>

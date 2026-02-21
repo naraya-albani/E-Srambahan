@@ -23,7 +23,7 @@ export default function GenderPage({
             alt="Slendro"
             width={615}
             height={503}
-            className="object-contain size-1/3"
+            className="object-contain w-2/3 sm:w-1/3"
           />
         </Link>
 
@@ -36,7 +36,7 @@ export default function GenderPage({
             alt="Pelog"
             width={617}
             height={503}
-            className="object-contain size-1/3"
+            className="object-contain w-2/3 sm:w-1/3"
           />
         </Link>
       </div>

@@ -33,7 +33,7 @@ export default function Macapat({
         <Link
           key={index}
           href={`/pilihan-tembang/tembang-macapat/${macapat}/${index}`}
-          className="flex items-center justify-center hover:scale-105 transition cursor-pointer w-102 h-16 relative isolate"
+          className="flex items-center justify-center hover:scale-105 transition cursor-pointer w-102 min-h-16 py-4 px-8 relative isolate"
         >
           <Image
             src="/bg-btn.png"
@@ -43,7 +43,9 @@ export default function Macapat({
             className="absolute inset-0 w-full h-full object-contain"
             style={{ zIndex: -1 }}
           />
-          <h1 className="text-lg font-bold relative z-10">{variant}</h1>
+          <h1 className="text-xl font-bold relative z-10 text-center">
+            {variant}
+          </h1>
         </Link>
       ))}
     </div>
