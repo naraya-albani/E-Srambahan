@@ -1,16 +1,12 @@
 "use client";
 
+import VoicePlayer from "@/components/voice-player";
 import { BackAction } from "@/hooks/back-action";
-import { SRAMBAHAN } from "@/types/srambahan";
+import { SRAMBAHAN } from "@/types/const";
 import localFont from "next/font/local";
 import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useRef, useState } from "react";
-
-// const javaneseFont = localFont({
-//   src: "../public/fonts/kepatihan.ttf",
-//   display: "swap",
-// });
 
 // Mapping notasi ke nama file audio (karakter spesial tidak valid untuk nama file)
 const notasiToFile: Record<string, string> = {
@@ -91,23 +87,6 @@ export default function Srambahan() {
     }
     setPlayingNote(null);
   };
-
-  const handleBack = useCallback(() => {
-    if (rangeSelected) {
-      // Step 4 → Step 3
-      setRangeSlendro(null);
-      setRangePelog(null);
-      stopAudio();
-    } else if (laras !== null) {
-      // Step 3 → Step 2
-      setLaras(null);
-    } else if (gender !== null) {
-      // Step 2 → Step 1
-      setGender(null);
-    }
-  }, [rangeSelected, laras, gender, stopAudio]);
-
-  BackAction(handleBack);
 
   return (
     <div className="flex flex-col gap-8 justify-center items-center min-h-screen p-8 font-sans text-black">
@@ -327,59 +306,10 @@ export default function Srambahan() {
             </h1>
           </div>
 
-          <div className="flex justify-center items-center gap-4 mt-8 max-lg:flex-col">
-            {(laras === "slendro"
-              ? SRAMBAHAN.slendro[rangeSlendro!]
-              : SRAMBAHAN.pelog[rangePelog!]
-            ).map((note, idx) => {
-              const [notasi, solmisasi] = Object.entries(note)[0];
-              const isPlaying = playingNote === notasi;
-              return (
-                <button
-                  key={idx}
-                  onClick={() => {
-                    if (playingNote === notasi) {
-                      stopAudio();
-                    } else {
-                      playAudio(notasi);
-                    }
-                  }}
-                  className={`flex flex-col items-center gap-4 text-4xl font-bold py-2 rounded-lg border-2 transition cursor-pointer max-lg:flex-row
-                    ${
-                      isPlaying
-                        ? "bg-[#8b6340] border-[#5a3e20] text-white scale-105"
-                        : "bg-[#c5ac90] border-black hover:bg-[#b09070] hover:scale-105"
-                    }`}
-                >
-                  <span className="w-16 text-center">{notasi}</span>
-                  <span className="w-24 text-center">{solmisasi}</span>
-                  <span className="text-2xl">{isPlaying ? "🔊" : "🔈"}</span>
-                </button>
-              );
-            })}
-          </div>
-
-          <div className="w-24 h-auto pt-4 md:w-40 lg:w-56">
-            {gender === "kakung" ? (
-              <Image
-                src="/kakung.png"
-                alt="Swantên Kakung"
-                width={250}
-                height={304}
-                className="object-contain size-2/3 md:size-1/3"
-                priority
-              />
-            ) : (
-              <Image
-                src="/putri.png"
-                alt="Swantên Putri"
-                width={172}
-                height={304}
-                className="object-contain size-2/3 md:size-1/3"
-                priority
-              />
-            )}
-          </div>
+          <VoicePlayer
+            laras={laras}
+            phetet={laras === "slendro" ? rangeSlendro! : rangePelog!}
+          />
         </div>
       )}
     </div>
