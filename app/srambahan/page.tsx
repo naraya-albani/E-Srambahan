@@ -1,83 +1,11 @@
 "use client";
 
+import { BackAction } from "@/hooks/back-action";
+import { SRAMBAHAN } from "@/types/srambahan";
 import localFont from "next/font/local";
 import Image from "next/image";
 import Link from "next/link";
-import { useRef, useState } from "react";
-
-const srambahan = {
-  slendro: {
-    nem: [
-      { y: "Nêm" },
-      { "1": "Ji" },
-      { "2": "Ro" },
-      { "3": "Lu" },
-      { "5": "Ma" },
-      { "6": "Nêm" },
-      { "!": "Ji" },
-      { "@": "Ro" },
-    ],
-    sanga: [
-      { t: "Ma" },
-      { y: "Nêm" },
-      { "1": "Ji" },
-      { "2": "Ro" },
-      { "3": "Lu" },
-      { "5": "Ma" },
-      { "6": "Nêm" },
-      { "!": "Ji" },
-      { "@": "Ro" },
-    ],
-    manyura: [
-      { y: "Nêm" },
-      { "1": "Ji" },
-      { "2": "Ro" },
-      { "3": "Lu" },
-      { "5": "Ma" },
-      { "6": "Nêm" },
-      { "!": "Ji" },
-      { "@": "Ro" },
-      { "#": "Lu" },
-    ],
-  },
-  pelog: {
-    lima: [
-      { t: "Ma" },
-      { y: "Nêm" },
-      { "1": "Ji" },
-      { "2": "Ro" },
-      { "3": "Lu" },
-      { "4": "Pat" },
-      { "5": "Ma" },
-      { "6": "Nêm" },
-      { "!": "Ji" },
-      { "@": "Ro" },
-    ],
-    nem: [
-      { y: "Nêm" },
-      { "1": "Ji" },
-      { "2": "Ro" },
-      { "3": "Lu" },
-      { "4": "Pat" },
-      { "5": "Ma" },
-      { "6": "Nêm" },
-      { "!": "Ji" },
-      { "@": "Ro" },
-      { "#": "Lu" },
-    ],
-    barang: [
-      { y: "Nêm" },
-      { u: "Pi" },
-      { "2": "Ro" },
-      { "3": "Lu" },
-      { "5": "Ma" },
-      { "6": "Nêm" },
-      { "7": "Pi" },
-      { "@": "Ro" },
-      { "#": "Lu" },
-    ],
-  },
-};
+import { useCallback, useRef, useState } from "react";
 
 // const javaneseFont = localFont({
 //   src: "../public/fonts/kepatihan.ttf",
@@ -163,6 +91,23 @@ export default function Srambahan() {
     }
     setPlayingNote(null);
   };
+
+  const handleBack = useCallback(() => {
+    if (rangeSelected) {
+      // Step 4 → Step 3
+      setRangeSlendro(null);
+      setRangePelog(null);
+      stopAudio();
+    } else if (laras !== null) {
+      // Step 3 → Step 2
+      setLaras(null);
+    } else if (gender !== null) {
+      // Step 2 → Step 1
+      setGender(null);
+    }
+  }, [rangeSelected, laras, gender, stopAudio]);
+
+  BackAction(handleBack);
 
   return (
     <div className="flex flex-col gap-8 justify-center items-center min-h-screen p-8 font-sans text-black">
@@ -384,8 +329,8 @@ export default function Srambahan() {
 
           <div className="flex justify-center items-center gap-4 mt-8 max-lg:flex-col">
             {(laras === "slendro"
-              ? srambahan.slendro[rangeSlendro!]
-              : srambahan.pelog[rangePelog!]
+              ? SRAMBAHAN.slendro[rangeSlendro!]
+              : SRAMBAHAN.pelog[rangePelog!]
             ).map((note, idx) => {
               const [notasi, solmisasi] = Object.entries(note)[0];
               const isPlaying = playingNote === notasi;
