@@ -79,6 +79,8 @@ export const TEMBANG_MACAPAT = [
       "Maskumambang Gagrag Grêsik Laras Sléndro Pathêt Manyura Cakrik Mat Kauli",
       "Maskumambang Dhandhapan Laras Pélog Pathêt Lima",
     ],
+    notasi: "#",
+    index: 1,
   },
   {
     name: "Megatruh",
@@ -114,13 +116,17 @@ export const TEMBANG_MACAPAT = [
       "Pocung Gagatrahina Laras Sléndro Pathêt Sanga",
       "Pocung Lêbdajiwa Laras Pélog Pathêt Lima",
     ],
+    notasi: "#",
+    index: 1,
   },
   {
     name: "Gambuh",
     variants: [
       "Gambuh Téjamaya Laras Sléndro Pathêt Sanga",
-      "Gambuh Génjung Laras Pélog Pathêt Lima",
+      "Gambuh Gênjung Laras Pélog Pathêt Lima",
     ],
+    notasi: "#",
+    index: 1,
   },
   {
     name: "Kinanthi",
@@ -128,12 +134,14 @@ export const TEMBANG_MACAPAT = [
       "Kinanthi Gagrag Malang Laras Sléndro Pathêt Sanga Cakrik Sumantri",
       "Kinanthi Gagrag Grêsik Laras Pélog Pathêt Nêm",
     ],
+    notasi: "#",
+    index: 0,
   },
   {
-    name: "Asmarandana",
+    name: "Asmaradana",
     variants: [
-      "Asmarandana Gagrag Grêsik Laras Sléndro Pathêt Sanga Cakrik Mat Kauli",
-      "Asmarandana Gagrag Banyumas Laras Pélog Pathêt Lima",
+      "Asmaradana Gagatan Laras Sléndro Pathêt Sanga",
+      "Asmaradana Gagrag Banyumas Laras Pélog Pathêt Lima",
     ],
   },
   {
@@ -144,10 +152,10 @@ export const TEMBANG_MACAPAT = [
     ],
   },
   {
-    name: "Dhandanggula",
+    name: "Dhandhanggula",
     variants: [
-      "Dhandanggula Gagrag Grêsik Laras Sléndro Pathêt Manyura Cakrik Mat Kauli",
-      "Dhandanggula Mangkubumen Laras Pélog Pathêt Barang",
+      "Dhandhanggula Gagrag Grêsik Laras Sléndro Pathêt Manyura Cakrik Mat Kauli",
+      "Dhandhanggula Mangkubumen Laras Pélog Pathêt Barang",
     ],
   },
 ];

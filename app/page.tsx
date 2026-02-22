@@ -1,8 +1,5 @@
-"use client";
-
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
 
 const menus = [
   { title: "Srambahan", link: "/srambahan" },
@@ -14,66 +11,31 @@ const menus = [
 ];
 
 export default function Home() {
-  const [start, setStart] = useState(false);
-
   return (
     <div className="min-h-screen px-8 font-sans text-black">
-      {/* START SCREEN */}
-      {!start && (
-        <div className="flex flex-col justify-center items-center min-h-screen">
+      <div className="flex flex-col justify-center items-center min-h-screen">
+        <Image
+          src="/title.png"
+          alt="Title"
+          width={400}
+          height={483}
+          className="object-contain"
+          loading="eager"
+        />
+        <h1 className="text-5xl text-center font-bold">E-Srambahan</h1>
+        <Link
+          href={"/main"}
+          className="flex items-center justify-center hover:scale-105 transition cursor-pointer"
+        >
           <Image
-            src="/title.png"
-            alt="Title"
-            width={400}
-            height={483}
-            className="object-contain"
-            loading="eager"
-          />
-          <h1 className="text-5xl text-center font-bold">E-Srambahan</h1>
-          <button
-            onClick={() => setStart(true)}
-            className="flex items-center justify-center hover:scale-105 transition cursor-pointer"
-          >
-            <Image
-              src="/start.png"
-              alt="Mlêbêt"
-              width={200}
-              height={283}
-              className="object-contain"
-            />
-          </button>
-        </div>
-      )}
-
-      {/* MENU SCREEN */}
-      {start && (
-        <div className="flex flex-col gap-4 justify-center items-center min-h-screen">
-          <Image
-            src="/menu.png"
-            alt="Menu"
-            width={250}
-            height={483}
+            src="/start.png"
+            alt="Mlêbêt"
+            width={200}
+            height={283}
             className="object-contain"
           />
-          {menus.map((menu, index) => (
-            <Link
-              key={index}
-              href={menu.link}
-              className="flex items-center justify-center hover:scale-105 transition cursor-pointer w-102 h-16 relative isolate"
-            >
-              <Image
-                src="/bg-btn.png"
-                alt="Background"
-                width={816}
-                height={183}
-                className="absolute inset-0 w-full h-full object-contain"
-                style={{ zIndex: -1 }}
-              />
-              <h1 className="text-3xl font-bold relative z-10">{menu.title}</h1>
-            </Link>
-          ))}
-        </div>
-      )}
+        </Link>
+      </div>
     </div>
   );
 }

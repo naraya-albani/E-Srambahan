@@ -1,7 +1,9 @@
 export default function KatranganAplikasi() {
   return (
-    <div className="flex flex-col gap-8 justify-center items-center min-h-screen p-8 font-sans text-black">
-      <h1 className="text-center text-4xl font-bold">Katrangan Aplikasi</h1>
+    <div className="flex flex-col gap-8 justify-center items-center min-h-screen p-8 text-black">
+      <h1 className="text-center text-4xl font-sans font-bold">
+        Katrangan Aplikasi
+      </h1>
       <p className="text-justify text-lg lg:mx-24">
         Sinau nywantênakên titilaras (notasi) wontên sêni swantên Jawi
         limrahipun kanthi cara nirokakên ungêlipun gamêlan utawi swantênipun

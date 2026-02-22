@@ -31,14 +31,9 @@ const notasiToFile: Record<string, string> = {
   "#": "3h",
 };
 
-function getAudioPath(
-  notasi: string,
-  gender: Gender,
-  laras: Laras,
-  phetet: Phetet,
-): string {
+function getAudioPath(notasi: string, gender: Gender): string {
   const namaFile = notasiToFile[notasi];
-  return `/voices/${gender}/${laras}/${phetet}/${namaFile}.wav`;
+  return `/voices/${gender}/${namaFile}.wav`;
 }
 
 export default function VoicePlayer({
@@ -46,11 +41,15 @@ export default function VoicePlayer({
   phetet,
   isChangeableGender = false,
   gender: genderProp = "kakung",
+  notasi,
+  index,
 }: {
   laras: Laras;
   phetet: Phetet;
   isChangeableGender?: boolean;
   gender?: Gender;
+  notasi?: string;
+  index?: number;
 }) {
   const [playingNote, setPlayingNote] = useState<string | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -64,7 +63,7 @@ export default function VoicePlayer({
       audioRef.current.currentTime = 0;
     }
 
-    const path = getAudioPath(notasi, gender, laras, phetet);
+    const path = getAudioPath(notasi, gender);
     const audio = new Audio(path);
     audioRef.current = audio;
     setPlayingNote(notasi);
@@ -123,6 +122,33 @@ export default function VoicePlayer({
             </button>
           );
         })}
+        {notasi && index !== undefined && index >= 0 && (
+          <button
+            onClick={() => {
+              if (playingNote === notasi) {
+                stopAudio();
+              } else {
+                playAudio(notasi);
+              }
+            }}
+            className={`flex flex-col items-center gap-2 text-4xl font-bold py-2 rounded-lg border-2 transition cursor-pointer
+          ${
+            playingNote === notasi
+              ? "bg-[#6b3fa0] border-[#3d1f6e] text-white scale-105"
+              : "bg-[#c4a8e8] border-[#7c4db5] hover:bg-[#b08fd4] hover:scale-105"
+          }`}
+          >
+            <span className={`${javaneseFont.className} w-16 text-center mb-2`}>
+              {notasi}
+            </span>
+            <span className="w-full text-center text-2xl">
+              {notasi === "#" ? "Lu" : notasi}
+            </span>
+            <span className="text-2xl">
+              {playingNote === notasi ? "🔊" : "🔈"}
+            </span>
+          </button>
+        )}
       </div>
 
       <div className="flex justify-center items-center mt-12">

@@ -3,8 +3,10 @@ import Link from "next/link";
 
 export default function ProfilPangembang() {
   return (
-    <div className="flex flex-col gap-8 justify-center items-center min-h-screen p-8 font-sans text-black">
-      <h1 className="text-center text-4xl font-bold">Profil Pangembang</h1>
+    <div className="flex flex-col gap-8 justify-center items-center min-h-screen p-8 text-black">
+      <h1 className="text-center text-4xl font-sans font-bold">
+        Profil Pangembang
+      </h1>
       <p className="text-justify text-lg lg:mx-24">
         Kula Ahmad Rizky Wahyudi, mahasiswa pascasarjana program studi
         Pendhidhikan Basa lan Sastra Universitas Nêgêri Surabaya angkatan 2024,

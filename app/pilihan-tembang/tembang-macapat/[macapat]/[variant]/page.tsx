@@ -58,7 +58,15 @@ export default function Variant({
         height={183}
         className="object-contain mt-8"
       />
-      <VoicePlayer laras={laras!} phetet={phetet!} isChangeableGender />
+      <VoicePlayer
+        laras={laras!}
+        phetet={phetet!}
+        isChangeableGender
+        notasi={tembangData.notasi}
+        index={
+          Number(variant) === tembangData.index ? Number(variant) : undefined
+        }
+      />
     </div>
   );
 }
