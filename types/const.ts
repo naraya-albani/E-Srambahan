@@ -116,8 +116,6 @@ export const TEMBANG_MACAPAT = [
       "Pocung Gagatrahina Laras Sléndro Pathêt Sanga",
       "Pocung Lêbdajiwa Laras Pélog Pathêt Lima",
     ],
-    notasi: "#",
-    index: 1,
   },
   {
     name: "Gambuh",
