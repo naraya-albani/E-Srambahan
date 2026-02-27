@@ -1,36 +1,105 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 📖 E-Srambahan
 
-## Getting Started
+> **E-Srambahan** adalah aplikasi web interaktif berbasis budaya Jawa yang menyajikan konten seputar lagu dalam kebudayaan dalam Jawa secara digital. Nama *srambahan* berasal dari Bahasa Jawa yang berarti sesuatu yang bersifat umum atau meluas — mencerminkan semangat aplikasi ini untuk menjangkau khalayak luas dalam melestarikan budaya Jawa.
 
-First, run the development server:
+🌐 **Live Demo:** [e-srambahan.vercel.app](https://e-srambahan.vercel.app)
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+---
+
+## ✨ Fitur
+
+- Terdapat pendeteksi fitur deteksi pitch yang sesuai dengan tangga nada di Jawa
+- Antarmuka berbahasa Jawa yang autentik (*Mlêbêt*, dll.)
+- Navigasi intuitif berbasis halaman dengan Next.js App Router
+- Desain responsif untuk berbagai ukuran layar
+- Performa tinggi dengan optimasi gambar dan font otomatis dari Next.js
+
+---
+
+## 🛠️ Tech Stack
+
+| Teknologi | Kegunaan |
+|-----------|----------|
+| [Next.js 14+](https://nextjs.org) | Framework React dengan App Router |
+| [TypeScript](https://www.typescriptlang.org) | Type-safe development |
+| [Tailwind CSS](https://tailwindcss.com) | Styling dan desain responsif |
+| [Vercel](https://vercel.com) | Hosting dan deployment |
+
+---
+
+## 🚀 Memulai
+
+### Prasyarat
+
+Pastikan kamu sudah menginstal:
+- [Node.js](https://nodejs.org) versi 18 ke atas
+- npm / yarn / pnpm / bun
+
+### Instalasi
+
+1. **Clone repositori ini**
+
+   ```bash
+   git clone https://github.com/naraya-albani/E-Srambahan.git
+   cd E-Srambahan
+   ```
+
+2. **Install dependensi**
+
+   ```bash
+   npm install
+   # atau
+   yarn install
+   # atau
+   pnpm install
+   ```
+
+3. **Jalankan server pengembangan**
+
+   ```bash
+   npm run dev
+   # atau
+   yarn dev
+   # atau
+   pnpm dev
+   ```
+
+4. Buka [http://localhost:3000](http://localhost:3000) di browser untuk melihat hasilnya.
+
+---
+
+## 📁 Struktur Proyek
+
+```
+E-Srambahan/
+├── app/              # Halaman dan layout (Next.js App Router)
+├── components/       # Komponen UI yang dapat digunakan ulang
+├── public/           # Aset statis (gambar, ikon, dll.)
+├── types/            # Definisi TypeScript
+├── next.config.ts    # Konfigurasi Next.js
+├── tsconfig.json     # Konfigurasi TypeScript
+└── package.json      # Dependensi dan skrip proyek
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 📦 Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Perintah | Fungsi |
+|---------|--------|
+| `npm run dev` | Menjalankan server development |
+| `npm run build` | Membuat build produksi |
+| `npm run start` | Menjalankan server produksi |
+| `npm run lint` | Menjalankan ESLint |
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
+## 🌍 Deployment
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Aplikasi ini di-deploy menggunakan **Vercel**. Setiap push ke branch `master` akan otomatis men-trigger deployment baru.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Untuk deploy secara mandiri, kunjungi [vercel.com](https://vercel.com/new) dan import repositori ini.
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+<p align="center">Dibuat <a href="https://github.com/naraya-albani">naraya-albani</a></p>
