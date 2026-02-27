@@ -75,15 +75,6 @@ export default function VoicePlayer({
     audio.onended = () => setPlayingNote(null);
   };
 
-  const stopAudio = () => {
-    if (audioRef.current) {
-      audioRef.current.pause();
-      audioRef.current.currentTime = 0;
-      audioRef.current = null;
-    }
-    setPlayingNote(null);
-  };
-
   const notes =
     laras === "slendro"
       ? (SRAMBAHAN.slendro[phetet as PhetetSlendro] ?? [])
@@ -98,13 +89,7 @@ export default function VoicePlayer({
           return (
             <button
               key={idx}
-              onClick={() => {
-                if (playingNote === notasi) {
-                  stopAudio();
-                } else {
-                  playAudio(notasi);
-                }
-              }}
+              onClick={() => playAudio(notasi)}
               className={`flex flex-col items-center gap-2 text-4xl font-bold py-2 rounded-lg border-2 transition cursor-pointer
                 ${
                   isPlaying
@@ -124,13 +109,7 @@ export default function VoicePlayer({
         })}
         {notasi && index !== undefined && index >= 0 && (
           <button
-            onClick={() => {
-              if (playingNote === notasi) {
-                stopAudio();
-              } else {
-                playAudio(notasi);
-              }
-            }}
+            onClick={() => playAudio(notasi)}
             className={`flex flex-col items-center gap-2 text-4xl font-bold py-2 rounded-lg border-2 transition cursor-pointer
           ${
             playingNote === notasi
