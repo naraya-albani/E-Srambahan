@@ -8,6 +8,7 @@ const menus = [
   { title: "Profil Pangêmbang", link: "/profil-pangembang" },
   { title: "Katrangan Aplikasi", link: "/katrangan-aplikasi" },
   { title: "Dhétèktor Plêng", link: "/dhetektor-pleng" },
+  { title: "Pandom", link: "/pandom" },
 ];
 
 export default function Home() {
