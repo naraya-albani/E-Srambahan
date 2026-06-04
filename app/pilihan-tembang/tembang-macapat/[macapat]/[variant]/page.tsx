@@ -4,6 +4,7 @@ import VoicePlayer from "@/components/voice-player";
 import { TEMBANG_MACAPAT } from "@/types/const";
 import { Laras, Phetet } from "@/types/type";
 import Image from "next/image";
+import Link from "next/link";
 import { use, useMemo } from "react";
 
 export default function Variant({
@@ -51,6 +52,21 @@ export default function Variant({
   return (
     <div className="flex flex-col gap-8 justify-center items-center min-h-screen p-8 font-sans text-black">
       <h1 className="text-center text-4xl font-bold">{variantData}</h1>
+      {macapat === "asmaradana" && Number(variant) === 0 && (
+        <p className="text-2xl font-semibold text-center">
+          Link vidheo pamaosan tembang macapat Asmaradana Gagatan Laras Slendro
+          Pathet Sanga:
+          <br />
+          <Link
+            className="text-blue-700 underline"
+            href="https://www.youtube.com/watch?v=2ID3MnTpU14&t=62s"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            https://www.youtube.com/watch?v=2ID3MnTpU14&t=62s
+          </Link>
+        </p>
+      )}
       <Image
         src={`/macapat/${macapat}/${variant}.png`}
         alt="Tembang"
