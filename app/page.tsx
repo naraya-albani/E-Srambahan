@@ -1,15 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
 
-const menus = [
-  { title: "Srambahan", link: "/srambahan" },
-  { title: "Pilihan Têmbang", link: "/pilihan-tembang" },
-  { title: "Paugeran Têmbang", link: "/paugeran-tembang" },
-  { title: "Profil Pangêmbang", link: "/profil-pangembang" },
-  { title: "Katrangan Aplikasi", link: "/katrangan-aplikasi" },
-  { title: "Dhétéktor Plêng", link: "/dhetektor-pleng" },
-];
-
 export default function Home() {
   return (
     <div className="min-h-screen px-8 font-sans text-black">

@@ -9,6 +9,7 @@ const menus = [
   { title: "Katrangan Aplikasi", link: "/katrangan-aplikasi" },
   { title: "Dhétèktor Plêng", link: "/dhetektor-pleng" },
   { title: "Pandom", link: "/pandom" },
+  { title: "Ancase Pasinaon", link: "/ancase-pasinaon" },
 ];
 
 export default function Home() {
