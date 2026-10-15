@@ -32,6 +32,11 @@ const noteStrings = [
   "B",
 ];
 
+type WindowWithWebkitAudio = Window &
+  typeof globalThis & {
+    webkitAudioContext?: typeof AudioContext;
+  };
+
 export default function PitchDetector({
   gender,
   laras,
@@ -124,9 +129,15 @@ export default function PitchDetector({
 
   const startDetection = async () => {
     try {
-      audioContextRef.current = new (
-        window.AudioContext || (window as any).webkitAudioContext
-      )();
+      const AudioContextClass =
+        window.AudioContext ||
+        (window as WindowWithWebkitAudio).webkitAudioContext;
+
+      if (!AudioContextClass) {
+        throw new Error("AudioContext tidak didukung di browser ini.");
+      }
+
+      audioContextRef.current = new AudioContextClass();
       analyserRef.current = audioContextRef.current.createAnalyser();
       analyserRef.current.fftSize = 2048;
 
