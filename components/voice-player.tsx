@@ -31,9 +31,9 @@ const notasiToFile: Record<string, string> = {
   "#": "3h",
 };
 
-function getAudioPath(notasi: string, gender: Gender): string {
+function getAudioPath(notasi: string, gender: Gender, laras: Laras): string {
   const namaFile = notasiToFile[notasi];
-  return `/voices/${gender}/${namaFile}.wav`;
+  return `/voices/${gender}/${laras}/${namaFile}.wav`;
 }
 
 export default function VoicePlayer({
@@ -63,7 +63,7 @@ export default function VoicePlayer({
       audioRef.current.currentTime = 0;
     }
 
-    const path = getAudioPath(notasi, gender);
+    const path = getAudioPath(notasi, gender, laras);
     const audio = new Audio(path);
     audioRef.current = audio;
     setPlayingNote(notasi);
