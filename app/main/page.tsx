@@ -6,7 +6,7 @@ const menus = [
   { title: "Pilihan Têmbang", link: "/pilihan-tembang" },
   { title: "Paugeran Têmbang", link: "/paugeran-tembang" },
   { title: "Profil Pangêmbang", link: "/profil-pangembang" },
-  { title: "Katrangan Aplikasi", link: "/katrangan-aplikasi" },
+  { title: "Katrangan", link: "/katrangan" },
   { title: "Dhétèktor Plêng", link: "/dhetektor-pleng" },
   { title: "Pandom", link: "/pandom" },
   { title: "Ancase Pasinaon", link: "/ancase-pasinaon" },

@@ -9,11 +9,12 @@ export default function Pandom() {
           <p className="text-xl">
             <strong>Halaman Awal</strong>
             <br />
-            Pengguna dapat membuka aplikasi{" "}
-            <em className="font-bold">E-Srambahan</em> melalui tautan yang telah
-            disediakan. Setelah tautan diakses, sistem akan menampilkan{" "}
-            <strong>halaman awal</strong> media pembelajaran. Di bagian tengah
-            halaman terdapat tombol{" "}
+            Pengguna dapat membuka <em className="font-bold">
+              E-Srambahan
+            </em>{" "}
+            melalui tautan yang telah disediakan. Setelah tautan diakses, sistem
+            akan menampilkan <strong>halaman awal</strong> media pembelajaran.
+            Di bagian tengah halaman terdapat tombol{" "}
             <em className="font-bold">Mangga mlêbêt!</em> yang berfungsi sebagai
             akses awal untuk masuk ke dalam media pembelajaran. Silakan klik
             tombol tersebut untuk memasuki menu utama.
@@ -65,8 +66,8 @@ export default function Pandom() {
             </li>
             <li>
               <p>
-                <em className="font-bold">Katrangan Aplikasi</em> untuk
-                mengetahui deskripsi dan tujuan pengembangan aplikasi.
+                <em className="font-bold">Katrangan</em> untuk mengetahui
+                deskripsi dan tujuan pengembangan.
               </p>
             </li>
             <li>
@@ -322,10 +323,10 @@ export default function Pandom() {
 
         <li>
           <p className="text-xl">
-            <strong>Menu Katrangan Aplikasi</strong>
+            <strong>Menu Katrangan</strong>
             <br />
-            Menu <em>Katrangan Aplikasi</em> berfungsi sebagai halaman informasi
-            yang mendeskripsikan latar belakang, tujuan, dan kelengkapan media{" "}
+            Menu <em>Katrangan</em> berfungsi sebagai halaman informasi yang
+            mendeskripsikan latar belakang, tujuan, dan kelengkapan media{" "}
             <em>E-Srambahan</em>.
           </p>
         </li>

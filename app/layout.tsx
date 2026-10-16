@@ -10,7 +10,7 @@ const scriptMTBold = localFont({
 
 export const metadata: Metadata = {
   title: "E-SRAMBAHAN",
-  description: "Aplikasi kanggé nyaranani para dwija basa Jawi",
+  description: "Medhia kangge sinau lan gladhen nembang.",
 };
 
 export default function RootLayout({
